@@ -7,7 +7,7 @@ $(function () {
   //it takes 2 seconds to transition between slides
   var animationSpeed = 250;
   //jquery will queue up actions and event so make suer thag you add your animationspeed to the pause or it will keep rinning with no pause
-  var pause = animationSpeed + 500;
+  var pause = animationSpeed + 10;
   var currentSlide = 1;
 
   //cache DOM elements
@@ -49,10 +49,20 @@ $(function () {
   startSlider();
 
   //If the mouse hovers over the slide then the animation stops and then it leaves it starts again
-  $slideContainer.on('mouseenter', pauseSlider).on('mouseleave', startSlider);
-
-  // If mouse hovers then transition speed will reduce to haldf
-  $slideContainer.hover(function () {
-    animationSpeed = 125;
+  $slideContainer.on('mouseenter', function () {
+    clearInterval(interval);
+    animationSpeed *= 5;
+    pause = animationSpeed + 10;
+    startSlider();
+  });
+  $slideContainer.on('mouseleave', function () {
+    clearInterval(interval);
+    animationSpeed /= 5;
+    pause = animationSpeed + 10;
+    startSlider();
+  });
+  $slideContainer.dblclick(function () {
+    clearInterval(interval);
+    animationSpeed *= 5;
   });
 });
